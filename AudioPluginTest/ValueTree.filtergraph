@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<FILTERGRAPH>
+  <FILTER uid="9" x="0.5" y="0.10000000000000000555">
+    <PLUGIN name="Audio Input" descriptiveName="" format="Internal" category="I/O devices"
+            manufacturer="ROLI Ltd." version="1.0" file="" uid="246006c0"
+            isInstrument="0" fileTime="0" infoUpdateTime="0" numInputs="0"
+            numOutputs="2" isShell="0"/>
+    <STATE>0.</STATE>
+    <LAYOUT>
+      <INPUTS>
+        <BUS index="0" layout="disabled"/>
+      </INPUTS>
+      <OUTPUTS>
+        <BUS index="0" layout="C"/>
+      </OUTPUTS>
+    </LAYOUT>
+  </FILTER>
+  <FILTER uid="10" x="0.25" y="0.10000000000000000555">
+    <PLUGIN name="Midi Input" descriptiveName="" format="Internal" category="I/O devices"
+            manufacturer="ROLI Ltd." version="1.0" file="" uid="cb5fde0b"
+            isInstrument="0" fileTime="0" infoUpdateTime="0" numInputs="0"
+            numOutputs="0" isShell="0"/>
+    <STATE>0.</STATE>
+    <LAYOUT>
+      <INPUTS>
+        <BUS index="0" layout="disabled"/>
+      </INPUTS>
+      <OUTPUTS>
+        <BUS index="0" layout="disabled"/>
+      </OUTPUTS>
+    </LAYOUT>
+  </FILTER>
+  <FILTER uid="11" x="0.5" y="0.9000000000000000222">
+    <PLUGIN name="Audio Output" descriptiveName="" format="Internal" category="I/O devices"
+            manufacturer="ROLI Ltd." version="1.0" file="" uid="724248cb"
+            isInstrument="0" fileTime="0" infoUpdateTime="0" numInputs="1"
+            numOutputs="0" isShell="0"/>
+    <STATE>0.</STATE>
+    <LAYOUT>
+      <INPUTS>
+        <BUS index="0" layout="L R"/>
+      </INPUTS>
+      <OUTPUTS>
+        <BUS index="0" layout="disabled"/>
+      </OUTPUTS>
+    </LAYOUT>
+  </FILTER>
+  <FILTER uid="12" x="0.46624999999999999778" y="0.42635658914728680191"
+          uiLastX_Normal="141" uiLastY_Normal="261" uiopen_Normal="0">
+    <PLUGIN name="AudioPluginTest" format="VST3" category="Fx" manufacturer="yourcompany"
+            version="1.0.0" file="D:\FinalYear\AudioProgramming\AudioPluginTestValueTree\Builds\VisualStudio2015\x64\Debug\VST3\AudioPluginTest.vst3"
+            uid="f8eb0680" isInstrument="0" fileTime="160cb3ce426" infoUpdateTime="160cb416b7f"
+            numInputs="2" numOutputs="2" isShell="0"/>
+    <STATE>497.VMjLgfd....OVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9LSL33hUMczXWEjKt3hYt3hKt.kKt3hKt3BS5gEcyQjKtPjYIYTR5AkaA4hKtfjKUM2bVQlKD4hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3hKtLiaUMTRSgTRA4hKtXWdQc1ZrEFT2Y0XssFagkicCQUPIUETMEjTZoFLogTaEYkVzkjPHESQFEFLUY0SnAUZKQCUCwjdpMUS3AUdLYmXowDLtLkSxf0TMECR3sTN1k2RGUjUZQWPEEFLiYkVzQyPt3hKt3hKt3hKt3hYRUUSTEETIckVwTjQisVTTgkdEYjKAQjYPQSPWgUdMcjKAQjct3hdA4hKt3hKt3hKtnTUv.UQAslXuk0UXoWUFE0YQcEV77RRC8Vav8lak4Fc9vyKVMEUy.Ea0cVZtMEcgQWY9..</STATE>
+    <LAYOUT>
+      <INPUTS>
+        <BUS index="0" layout="L R"/>
+      </INPUTS>
+      <OUTPUTS>
+        <BUS index="0" layout="L R"/>
+      </OUTPUTS>
+    </LAYOUT>
+  </FILTER>
+  <CONNECTION srcFilter="9" srcChannel="0" dstFilter="12" dstChannel="0"/>
+  <CONNECTION srcFilter="9" srcChannel="0" dstFilter="12" dstChannel="1"/>
+  <CONNECTION srcFilter="12" srcChannel="0" dstFilter="11" dstChannel="0"/>
+  <CONNECTION srcFilter="12" srcChannel="1" dstFilter="11" dstChannel="1"/>
+</FILTERGRAPH>

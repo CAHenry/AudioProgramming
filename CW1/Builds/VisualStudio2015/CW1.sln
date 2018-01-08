@@ -1,0 +1,20 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2015
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CW1 - ConsoleApp", "CW1_ConsoleApp.vcxproj", "{9F536D62-7BBF-0BB4-F0AF-2827A13F9417}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F536D62-7BBF-0BB4-F0AF-2827A13F9417}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9F536D62-7BBF-0BB4-F0AF-2827A13F9417}.Debug|Win32.Build.0 = Debug|Win32
+		{9F536D62-7BBF-0BB4-F0AF-2827A13F9417}.Release|Win32.ActiveCfg = Release|Win32
+		{9F536D62-7BBF-0BB4-F0AF-2827A13F9417}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2015
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Coursework Three - VST3", "Coursework Three_VST3.vcxproj", "{9D6477EC-2C1B-5BD4-2585-9B9BB5175F51}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7AEEC783-4A72-FE73-BAAC-21AF753B8040} = {7AEEC783-4A72-FE73-BAAC-21AF753B8040}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Coursework Three - Shared Code", "Coursework Three_SharedCode.vcxproj", "{7AEEC783-4A72-FE73-BAAC-21AF753B8040}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D6477EC-2C1B-5BD4-2585-9B9BB5175F51}.Debug|x64.ActiveCfg = Debug|x64
+		{9D6477EC-2C1B-5BD4-2585-9B9BB5175F51}.Debug|x64.Build.0 = Debug|x64
+		{9D6477EC-2C1B-5BD4-2585-9B9BB5175F51}.Release|x64.ActiveCfg = Release|x64
+		{9D6477EC-2C1B-5BD4-2585-9B9BB5175F51}.Release|x64.Build.0 = Release|x64
+		{7AEEC783-4A72-FE73-BAAC-21AF753B8040}.Debug|x64.ActiveCfg = Debug|x64
+		{7AEEC783-4A72-FE73-BAAC-21AF753B8040}.Debug|x64.Build.0 = Debug|x64
+		{7AEEC783-4A72-FE73-BAAC-21AF753B8040}.Release|x64.ActiveCfg = Release|x64
+		{7AEEC783-4A72-FE73-BAAC-21AF753B8040}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

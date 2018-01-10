@@ -412,6 +412,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\DelayLine.cpp">
+      <Filter>Coursework Three\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp">
       <Filter>Coursework Three\Source</Filter>
     </ClCompile>
@@ -2325,6 +2328,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\DelayLine.h">
+      <Filter>Coursework Three\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PluginProcessor.h">
       <Filter>Coursework Three\Source</Filter>
     </ClInclude>

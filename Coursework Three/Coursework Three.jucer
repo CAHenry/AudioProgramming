@@ -15,6 +15,8 @@
               companyName="Coursework Three">
   <MAINGROUP id="kC4RuA" name="Coursework Three">
     <GROUP id="{91C561BF-C44F-3BA3-1CE7-44C0764239CF}" name="Source">
+      <FILE id="mwJ2nQ" name="DelayLine.cpp" compile="1" resource="0" file="Source/DelayLine.cpp"/>
+      <FILE id="eH6VgJ" name="DelayLine.h" compile="0" resource="0" file="Source/DelayLine.h"/>
       <FILE id="qABptx" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="Qfs00d" name="PluginProcessor.h" compile="0" resource="0"

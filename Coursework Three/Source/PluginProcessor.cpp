@@ -24,7 +24,8 @@ DelayAudioProcessor::DelayAudioProcessor()
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
                        ),
-      lowPassFilter (dsp::IIR::Coefficients<float>::makeFirstOrderLowPass (48000.0, 2000.f))
+      lowPassFilter (dsp::IIR::Coefficients<float>::makeFirstOrderLowPass (48000.0, 2000.f)),
+      delay (48000)
 #endif
 {
     parameters.createAndAddParameter ("mix", "Mix", String (), NormalisableRange<float> (0.0f, 100.0f), 50.0f, nullptr, nullptr);

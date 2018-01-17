@@ -16,7 +16,8 @@
 //==============================================================================
 /**
 */
-class DelayAudioProcessor  : public AudioProcessor
+class DelayAudioProcessor  : public AudioProcessor,
+                             Delay
 {
 public:
     AudioProcessorValueTreeState parameters;
@@ -64,7 +65,9 @@ private:
 
     //==============================================================================
     dsp::ProcessorDuplicator<dsp::IIR::Filter<float>, dsp::IIR::Coefficients<float>> lowPassFilter;
-    DelayLine delay;
+    LinearSmoothedValue<float> mix;
+    LinearSmoothedValue<float> feedback;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DelayAudioProcessor)
 };

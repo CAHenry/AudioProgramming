@@ -11,20 +11,19 @@
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class DelayLine
+class Delay
 {
 public:
-    DelayLine (int numSamplesToAllocate);
-    ~DelayLine ();
+    Delay (int numSamplesToAllocate);
+    ~Delay ();
 
     void write (float val);
     float read (int tap);
-    void setDelayTime (int tap, float val);
+    void increment ();
 
-private:
-
-    AudioBuffer<float> buffer;
+protected:
+    AudioBuffer<float> delayLine;
     int samplesAllocated;
     std::atomic<int> writeIndex;
-    std::atomic<int> delayTime[4];
+    LinearSmoothedValue<float> delayTimes[4];
 };

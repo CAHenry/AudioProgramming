@@ -10,30 +10,39 @@
 
 #include "DelayLine.h"
 
-DelayLine::DelayLine (int numSamplesToAllocate)
-    : buffer (1, numSamplesToAllocate)
+Delay::Delay (int numSamplesToAllocate)
+    : delayLine (1, numSamplesToAllocate)
 {
     samplesAllocated = numSamplesToAllocate;
+    delayTimes[0] = 22100;
+    writeIndex = 0;
 }
 
-DelayLine::~DelayLine ()
+Delay::~Delay ()
 {
 
 }
 
-void DelayLine::write (float val)
+void Delay::write (float val)
 {
-    float* writePointer = buffer.getWritePointer (0, writeIndex);
+    float* writePointer = delayLine.getWritePointer (0, writeIndex);
     *writePointer = val;
+}
+
+void Delay::increment ()
+{
     writeIndex = (writeIndex + 1) % samplesAllocated;
 }
 
-float DelayLine::read (int tap)
+float Delay::read (int tap)
 {
-    return *buffer.getReadPointer (0, (writeIndex + delayTime[tap]) % samplesAllocated);
-}
+    float delayTime = delayTimes[tap].getNextValue ();
 
-void DelayLine::setDelayTime (int tap, float val)
-{
-    delayTime[tap] = val * 48000;
+    int low = floor (delayTime);
+    int high = (low + 1) % samplesAllocated;
+    float fPart = delayTime - low;
+    const float* lowIndex = delayLine.getReadPointer (0, (writeIndex - low + samplesAllocated) % samplesAllocated);
+    const float* highIndex = delayLine.getReadPointer (0, (writeIndex - high + samplesAllocated) % samplesAllocated);
+
+    return (*lowIndex * (1 - fPart)) + (*highIndex * fPart);
 }

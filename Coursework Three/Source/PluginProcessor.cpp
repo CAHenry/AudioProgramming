@@ -24,15 +24,15 @@ DelayAudioProcessor::DelayAudioProcessor()
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
                        ),
-      lowPassFilter (dsp::IIR::Coefficients<float>::makeFirstOrderLowPass (48000.0, 2000.f)),
-      delay (48000)
+      lowPassFilter (dsp::IIR::Coefficients<float>::makeFirstOrderLowPass (44100.0, 200.f)),
+      delay (44101)
 #endif
 {
-    parameters.createAndAddParameter ("mix", "Mix", String (), NormalisableRange<float> (0.0f, 100.0f), 50.0f, nullptr, nullptr);
-    parameters.createAndAddParameter ("feedback", "Feedback", String (), NormalisableRange<float> (0.0f, 100.0f), 50.0f, nullptr, nullptr);
-    parameters.createAndAddParameter ("time", "Time", String (), NormalisableRange<float> (0.0f, 100.0f), 50.0f, nullptr, nullptr);
-
+    parameters.createAndAddParameter ("mix", "Mix", String (), NormalisableRange<float> (0.0f, 1.0f), 1.0f, nullptr, nullptr);
+    parameters.createAndAddParameter ("feedback", "Feedback", String (), NormalisableRange<float> (0.0f, 1.0f), 0.5f, nullptr, nullptr);
+    parameters.createAndAddParameter ("time", "Time", String (), NormalisableRange<float> (0.0f, 1.0f), 0.5f, nullptr, nullptr);
     parameters.state = ValueTree (Identifier ("Delay"));
+
 }
 
 DelayAudioProcessor::~DelayAudioProcessor()
@@ -106,7 +106,7 @@ void DelayAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     auto channels = static_cast<uint32> (jmin (getMainBusNumInputChannels (), getMainBusNumOutputChannels ()));
     dsp::ProcessSpec spec{sampleRate, static_cast<uint32> (samplesPerBlock), channels};
-
+    delay.clear ();
     lowPassFilter.prepare (spec);
 
     reset ();
@@ -150,7 +150,7 @@ bool DelayAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) co
 void DelayAudioProcessor::process (dsp::ProcessContextReplacing<float> context) noexcept
 {
     ScopedNoDenormals noDenormals;
-
+    
     lowPassFilter.process (context);
 }
 void DelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
@@ -169,14 +169,26 @@ void DelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
     for (int i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    dsp::AudioBlock<float> block (buffer);
+    //dsp::AudioBlock<float> block (buffer);
 
-    auto firstChan = block.getSingleChannelBlock (0);
+    //auto firstChan = block.getSingleChannelBlock (0);
+    float* channelBuffer = buffer.getWritePointer (0);
+    const float feedback = *parameters.getRawParameterValue ("feedback");
+    const float mix = *parameters.getRawParameterValue ("mix");
+    const float time = *parameters.getRawParameterValue ("time");
+    float dryMix = 1 - mix;
+    float wetMix = mix;
+    delay.setDelayTime (0, time);
 
-    process (dsp::ProcessContextReplacing<float> (firstChan));
-
-    for (size_t chan = 1; chan < block.getNumChannels (); ++chan)
-        block.getSingleChannelBlock (chan).copy (firstChan);
+    for (int i = 0; i < numSamples; i++)
+    {
+        float sample = channelBuffer[i];
+        channelBuffer[i] = channelBuffer[i] * dryMix + delay.read (0) * wetMix;
+        delay.write ((sample + delay.read(0)) * feedback);
+        delay.increment();
+    }
+    //for (size_t chan = 1; chan < block.getNumChannels (); ++chan)
+    //    block.getSingleChannelBlock (chan).copy (firstChan);
     
 }
 

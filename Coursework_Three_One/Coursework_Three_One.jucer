@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="fKPq3N" name="Coursework_Three_One" displaySplashScreen="1"
+              reportAppUsage="1" splashScreenColour="Dark" projectType="audioplug"
+              version="1.0.0" bundleIdentifier="com.yourcompany.Coursework_Three_One"
+              includeBinaryInAppConfig="1" cppLanguageStandard="11" companyCopyright=""
+              buildVST="0" buildVST3="1" buildAU="1" buildAUv3="0" buildRTAS="0"
+              buildAAX="0" buildStandalone="0" enableIAA="0" pluginName="Coursework_Three_One"
+              pluginDesc="Coursework_Three_One" pluginManufacturer="yourcompany"
+              pluginManufacturerCode="Manu" pluginCode="Fkpq" pluginChannelConfigs=""
+              pluginIsSynth="0" pluginWantsMidiIn="0" pluginProducesMidiOut="0"
+              pluginIsMidiEffectPlugin="0" pluginEditorRequiresKeys="0" pluginAUExportPrefix="Coursework_Three_OneAU"
+              pluginRTASCategory="" aaxIdentifier="com.yourcompany.Coursework_Three_One"
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="5.2.0"
+              companyName="CraigHenry">
+  <MAINGROUP id="yhf7BL" name="Coursework_Three_One">
+    <GROUP id="{7D93C52C-D096-5A22-580B-7E2AB24BD30B}" name="Source">
+      <FILE id="f7eCDv" name="Delay.cpp" compile="1" resource="0" file="Source/Delay.cpp"/>
+      <FILE id="CpxVR1" name="Delay.h" compile="0" resource="0" file="Source/Delay.h"/>
+      <FILE id="oNPODf" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
+      <FILE id="bkqy5i" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
+      <FILE id="ZJLqXY" name="MultitapDelay.cpp" compile="1" resource="0"
+            file="Source/MultitapDelay.cpp"/>
+      <FILE id="DTBAHx" name="MultitapDelay.h" compile="0" resource="0" file="Source/MultitapDelay.h"/>
+      <FILE id="T0UZST" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="OV4a2F" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="DdpJdC" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="d1SUvc" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <VS2015 targetFolder="Builds/VisualStudio2015">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
+                       debugInformationFormat="ProgramDatabase" enablePluginBinaryCopyStep="0"
+                       linkTimeOptimisation="0" isDebug="1" optimisation="1" targetName="Coursework_Three_One"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
+                       debugInformationFormat="ProgramDatabase" enablePluginBinaryCopyStep="0"
+                       linkTimeOptimisation="1" isDebug="0" optimisation="3" targetName="Coursework_Three_One"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="C:/Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="C:/Program Files/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2015>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_QUICKTIME="disabled"/>
+</JUCERPROJECT>

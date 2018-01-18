@@ -10,28 +10,52 @@
 
 #include "Delay.h"
 
-Delay::Delay (int samplesToAllocate, float defaultDelayTime)
-    : delayLine (1, samplesToAllocate),
-    delayTime (defaultDelayTime)
+Delay::Delay (float defaultDelayTime, float maximumDelayTime)
+    : delayTime (defaultDelayTime),
+    maximumDelayTime(maximumDelayTime)
 {
-    delayWriteIndex = 0;
-    maxDelayLength = samplesToAllocate - 1;
+    writeIndex = 0;
 }
 
 Delay::~Delay ()
   {
   }
 
-float Delay::readDelayLine (int sampleRate)
+void Delay::setDelayTime (float val)
 {
-    const float* delayBuffer = delayLine.getReadPointer (0, 0);
+    delayTime.setValue (val);
+}
 
-    float delayInSamples = delayTime.getNextValue () * 48000;
+
+void Delay::initialise (AudioBuffer<float> &delayLine, int numberOfChannels, int processorSampleRate, float delayRampTimeInSeconds)
+{
+    numChannels = numberOfChannels;
+    sampleRate = processorSampleRate;
+    delayLineLength = maximumDelayTime * sampleRate;
+    delayLine.setSize (numChannels, delayLineLength, false, false, false);
+    delayTime.reset (sampleRate, delayRampTimeInSeconds);
+    delayLine.clear ();
+}
+
+float Delay::read (float* &delayBuffer)
+{
+    float delayInSamples = delayTime.getNextValue () * sampleRate;
 
     int low = floor (delayInSamples);
-    int high = (low + 1) % maxDelayLength;
+    int high = (low + 1) % delayLineLength;
     float fPart = delayInSamples - low;
-    float lowVal = delayBuffer[(delayWriteIndex - low + maxDelayLength) % maxDelayLength];
-    float highVal = delayBuffer[(delayWriteIndex - high + maxDelayLength) % maxDelayLength];
+
+    float lowVal = delayBuffer[(writeIndex - low + delayLineLength) % delayLineLength];
+    float highVal = delayBuffer[(writeIndex - high + delayLineLength) % delayLineLength];
     return (lowVal * (1 - fPart)) + (highVal * fPart);
+}
+
+void Delay::writeSample (float* &delayBuffer, float val)
+{
+    delayBuffer[writeIndex] = val;
+}
+
+void Delay::incrementIndex ()
+{
+    writeIndex = (writeIndex + 1) % delayLineLength;
 }

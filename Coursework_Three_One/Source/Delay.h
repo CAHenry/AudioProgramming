@@ -14,13 +14,18 @@
 class Delay
 {
 public:
-    Delay (int samplesToAllocate, float defaultDelayTime);
+    Delay (float defaultDelayTime, float maximumDelayTime);
     ~Delay ();
-
-    float readDelayLine (int sampleRate);
+    void setDelayTime (float val);
+    void initialise (AudioBuffer<float> &delayLine, int numberOfChannels, int processorSampleRate, float delayRampTimeInSeconds);
+    float read (float* &delayBuffer);
+    void writeSample (float* &delayBuffer, float val);
+    void incrementIndex ();
+private:
+    int writeIndex;
     LinearSmoothedValue<float> delayTime;
-protected:
-    AudioBuffer<float> delayLine;
-    int maxDelayLength;
-    int delayWriteIndex;
+    int delayLineLength;
+    int maximumDelayTime;
+    int numChannels;
+    int sampleRate;
 };

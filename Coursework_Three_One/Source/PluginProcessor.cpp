@@ -27,8 +27,8 @@ DelayAudioProcessor::DelayAudioProcessor ()
             parameters (*this, nullptr),
             mix (0.5f),
             feedback (0.8f),
-            Delay (48001, 0.4f),
-            LPF (dsp::IIR::Coefficients<float>::makeFirstOrderLowPass (48000, 2000))
+            delay (0.4f, 2.0f),
+            filter (dsp::IIR::Coefficients<float>::makeFirstOrderLowPass (48000, 2000))
 {
   
     parameters.createAndAddParameter ("mix", "Mix", String (), NormalisableRange<float> (0.0f, 1.0f), 0.5f, nullptr, nullptr);
@@ -107,12 +107,11 @@ void DelayAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    sampleRate = getSampleRate ();
     mix.reset (sampleRate, 0.1);
     feedback.reset (sampleRate, 0.1);
-    delayTime.reset (sampleRate, 0.1);
+    delay.initialise(delayLine, getNumInputChannels(), sampleRate, 0.1) ;
     auto channels = static_cast<uint32> (jmin (getMainBusNumInputChannels (), getMainBusNumOutputChannels ()));
-    delayLine.clear ();
+
 }
 
 void DelayAudioProcessor::releaseResources()
@@ -123,8 +122,7 @@ void DelayAudioProcessor::releaseResources()
 
 void DelayAudioProcessor::reset ()
 {
-    delayLine.clear ();
-    LPF.reset ();
+    filter.reset ();
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -182,18 +180,12 @@ void DelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
         float dryMix = 1 - mixVal;
         float wetMix = mixVal;
 
-        float sample = channelBuffer[i];
-        float delayedSample = readDelayLine (sampleRate);
-        channelBuffer[i] = channelBuffer[i] * dryMix + delayedSample * wetMix;
-        delayBuffer[delayWriteIndex] = ((sample + delayedSample) * feedbackVal);
-        delayBuffer[delayWriteIndex] = LPF.processSample (delayBuffer[delayWriteIndex]);
-
-
-        if (++delayWriteIndex >= maxDelayLength)
-        {
-            delayWriteIndex = 0;
-        }
-
+        float in = channelBuffer[i];
+        float delayOutput = delay.read(delayBuffer);
+        channelBuffer[i] = channelBuffer[i] * dryMix + delayOutput * wetMix;
+        float delayInput = filter.processSample (in + (delayOutput * feedbackVal));
+        delay.writeSample(delayBuffer, delayInput);
+        delay.incrementIndex ();
     }
     
 }

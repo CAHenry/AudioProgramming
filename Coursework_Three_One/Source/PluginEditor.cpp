@@ -83,7 +83,7 @@ void DelayAudioProcessorEditor::parameterChanged (const String & parameterID, fl
     }
     else if (parameterID == "time")
     {
-        processor.delayTime.setValue (newValue);
+        processor.delay.setDelayTime (newValue);
     }
     else if (parameterID == "feedback")
     {

@@ -30,24 +30,27 @@ void Delay::initialise (AudioBuffer<float> &delayLine, int numberOfChannels, int
 {
     numChannels = numberOfChannels;
     sampleRate = processorSampleRate;
-    delayLineLength = static_cast<int> (maximumDelayTime) * sampleRate;
+    delayLineLength = static_cast<int> (maximumDelayTime) * sampleRate; // maximumDelayTime is in seconds, multiplied by sample rate to give length in samples
     delayLine.setSize (numChannels, delayLineLength, false, false, false);
-    delayTime.reset (sampleRate, delayRampTimeInSeconds);
-    currentDelay = delayTime.getNextValue();
+    delayTime.reset (sampleRate, delayRampTimeInSeconds); // LinearSmoothedValue, sets the ramp time and rate at which the values are required
+    currentDelay = delayTime.getNextValue(); // Ensure that the currently delay is initialised
     delayLine.clear ();
 }
 
 float Delay::readSample (float* &delayBuffer)
 {
     float delayInSamples = currentDelay * sampleRate;
-
-
+  
+    // read index is (writeIndex - delayInSamples + delayLineLength) % delayLineLength
+    // however this function linearly interpolates to allow float delay times
     int low = static_cast<int> (floor (delayInSamples));
     int high = (low + 1) % delayLineLength;
     float fPart = delayInSamples - low;
 
     float lowVal = delayBuffer[(writeIndex - low + delayLineLength) % delayLineLength];
     float highVal = delayBuffer[(writeIndex - high + delayLineLength) % delayLineLength];
+  
+    // interpolate between low and high
     return (lowVal * (1 - fPart)) + (highVal * fPart);
 }
 

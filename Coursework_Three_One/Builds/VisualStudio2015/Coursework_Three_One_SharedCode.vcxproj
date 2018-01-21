@@ -147,6 +147,7 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\CustomSlider.cpp"/>
     <ClCompile Include="..\..\Source\Delay.cpp"/>
     <ClCompile Include="..\..\Source\Filter.cpp"/>
     <ClCompile Include="..\..\Source\MultitapDelay.cpp"/>
@@ -1901,6 +1902,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\CustomSlider.h"/>
     <ClInclude Include="..\..\Source\Delay.h"/>
     <ClInclude Include="..\..\Source\Filter.h"/>
     <ClInclude Include="..\..\Source\MultitapDelay.h"/>

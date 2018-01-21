@@ -12,11 +12,12 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Delay.h"
+#include "Filter.h"
 
 //==============================================================================
 /**
 */
-class DelayAudioProcessor  : public AudioProcessor
+class DelayAudioProcessor  : public AudioProcessor, public AudioProcessorValueTreeState::Listener
 {
 public:
     //==============================================================================
@@ -59,10 +60,15 @@ public:
     LinearSmoothedValue<float> mix;
     LinearSmoothedValue<float> feedback;
     Delay delay;
+    Filter filterL;
+    Filter filterR;
+    Filter* filterStereo[2] = {&filterL, &filterR};
+    AudioPlayHead::CurrentPositionInfo currentPositionInfo;
 private:
+    void parameterChanged (const String &parameterID, float newValue);
+    AudioPlayHead* playHead;
     AudioProcessorValueTreeState parameters;
     AudioBuffer<float> delayLine;
-    dsp::IIR::Filter<float> filter;
     int sampleRate;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DelayAudioProcessor)

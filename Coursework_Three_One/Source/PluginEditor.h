@@ -12,12 +12,12 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
-
+#include "CustomSlider.h"
 
 //==============================================================================
 /**
 */
-class DelayAudioProcessorEditor  : public AudioProcessorEditor, private AudioProcessorValueTreeState::Listener
+class DelayAudioProcessorEditor  : public AudioProcessorEditor, public Timer
 {
 public:
     DelayAudioProcessorEditor (DelayAudioProcessor&, AudioProcessorValueTreeState&);
@@ -28,7 +28,8 @@ public:
     void resized() override;
 
 private:
-    void parameterChanged (const String &parameterID, float newValue);
+
+    void timerCallback () override;
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
@@ -36,14 +37,16 @@ private:
 
     enum
     {
-        paramControlHeight = 40,
+        paramControlHeight = 80,
         paramLabelWidth = 80,
-        paramSliderWidth = 300
+        paramSliderWidth = 80
     };
 
     AudioProcessorValueTreeState& valueTreeState;
 
     typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
+    typedef AudioProcessorValueTreeState::ButtonAttachment ButtonAttachment;
+
     Label mixLabel;
     Slider mixSlider;
     ScopedPointer<SliderAttachment> mixAttachment;
@@ -53,8 +56,25 @@ private:
     ScopedPointer<SliderAttachment> feedbackAttachment;
 
     Label timeLabel;
-    Slider timeSlider;
+    TextParameterSlider timeSlider;
     ScopedPointer<SliderAttachment> timeAttachment;
+
+    Label syncTimeLabel;
+    TextParameterSlider syncTimeSlider;
+    ScopedPointer<SliderAttachment> syncTimeAttachment;
+
+    Label syncLabel;
+    ToggleButton syncButton;
+    ScopedPointer<ButtonAttachment> syncAttachment;
+
+    Label responseLabel;
+    TextParameterSlider responseSlider;
+    ScopedPointer<SliderAttachment> responseAttachment;
+
+    Label frequencyLabel;
+    Slider frequencySlider;
+    ScopedPointer<SliderAttachment> frequencyAttachment;
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DelayAudioProcessorEditor)
 };

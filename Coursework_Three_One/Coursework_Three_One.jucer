@@ -3,7 +3,7 @@
 <JUCERPROJECT id="fKPq3N" name="Coursework_Three_One" displaySplashScreen="1"
               reportAppUsage="1" splashScreenColour="Dark" projectType="audioplug"
               version="1.0.0" bundleIdentifier="com.yourcompany.Coursework_Three_One"
-              includeBinaryInAppConfig="1" cppLanguageStandard="11" companyCopyright=""
+              includeBinaryInAppConfig="1" cppLanguageStandard="11" companyCopyright="CraigHenry"
               buildVST="0" buildVST3="1" buildAU="1" buildAUv3="0" buildRTAS="0"
               buildAAX="0" buildStandalone="0" enableIAA="0" pluginName="Coursework_Three_One"
               pluginDesc="Coursework_Three_One" pluginManufacturer="yourcompany"
@@ -15,6 +15,9 @@
               companyName="CraigHenry">
   <MAINGROUP id="yhf7BL" name="Coursework_Three_One">
     <GROUP id="{7D93C52C-D096-5A22-580B-7E2AB24BD30B}" name="Source">
+      <FILE id="TjG0wP" name="CustomSlider.cpp" compile="1" resource="0"
+            file="Source/CustomSlider.cpp"/>
+      <FILE id="N0sNDf" name="CustomSlider.h" compile="0" resource="0" file="Source/CustomSlider.h"/>
       <FILE id="f7eCDv" name="Delay.cpp" compile="1" resource="0" file="Source/Delay.cpp"/>
       <FILE id="CpxVR1" name="Delay.h" compile="0" resource="0" file="Source/Delay.h"/>
       <FILE id="oNPODf" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>

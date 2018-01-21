@@ -412,16 +412,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\CustomSlider.cpp">
+    <ClCompile Include="..\..\Source\TextParameterSlider.cpp">
       <Filter>Coursework_Three_One\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Delay.cpp">
       <Filter>Coursework_Three_One\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Filter.cpp">
-      <Filter>Coursework_Three_One\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\MultitapDelay.cpp">
       <Filter>Coursework_Three_One\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp">
@@ -2337,16 +2334,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\CustomSlider.h">
+    <ClInclude Include="..\..\Source\TextParameterSlider.h">
       <Filter>Coursework_Three_One\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Delay.h">
       <Filter>Coursework_Three_One\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Filter.h">
-      <Filter>Coursework_Three_One\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\MultitapDelay.h">
       <Filter>Coursework_Three_One\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PluginProcessor.h">

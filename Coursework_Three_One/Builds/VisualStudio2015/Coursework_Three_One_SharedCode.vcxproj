@@ -147,10 +147,9 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\CustomSlider.cpp"/>
+    <ClCompile Include="..\..\Source\TextParameterSlider.cpp"/>
     <ClCompile Include="..\..\Source\Delay.cpp"/>
     <ClCompile Include="..\..\Source\Filter.cpp"/>
-    <ClCompile Include="..\..\Source\MultitapDelay.cpp"/>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp"/>
     <ClCompile Include="..\..\Source\PluginEditor.cpp"/>
     <ClCompile Include="C:\Program Files\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -1902,10 +1901,9 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\CustomSlider.h"/>
+    <ClInclude Include="..\..\Source\TextParameterSlider.h"/>
     <ClInclude Include="..\..\Source\Delay.h"/>
     <ClInclude Include="..\..\Source\Filter.h"/>
-    <ClInclude Include="..\..\Source\MultitapDelay.h"/>
     <ClInclude Include="..\..\Source\PluginProcessor.h"/>
     <ClInclude Include="..\..\Source\PluginEditor.h"/>
     <ClInclude Include="C:\Program Files\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>

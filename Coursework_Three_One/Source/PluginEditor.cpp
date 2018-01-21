@@ -36,22 +36,6 @@ DelayAudioProcessorEditor::DelayAudioProcessorEditor (DelayAudioProcessor& p, Au
     timeSlider.setSliderStyle (Slider::Rotary);
     timeAttachment = new SliderAttachment (valueTreeState, "time", timeSlider);
 
-    syncTimeLabel.setText ("Sync Time", dontSendNotification);
-    addAndMakeVisible (syncTimeLabel);
-    addAndMakeVisible (syncTimeSlider);
-    syncTimeSlider.setGetTextFromValueFunction (Delay::syncToText);
-    syncTimeSlider.setGetValueFromTextFunction (Delay::textToSync);
-    syncTimeLabel.setVisible (false);
-    syncTimeSlider.setVisible (false);
-    syncTimeSlider.setSliderStyle (Slider::Rotary);
-    syncTimeAttachment = new SliderAttachment (valueTreeState, "syncTime", syncTimeSlider);
-    syncTimeSlider.setRange (0, 6, 1);
-
-    syncLabel.setText ("Sync", dontSendNotification);
-    addAndMakeVisible (syncLabel);
-    addAndMakeVisible (syncButton);
-    syncAttachment = new ButtonAttachment (valueTreeState, "sync", syncButton);
-
     responseLabel.setText ("Filter Response", dontSendNotification);
     addAndMakeVisible (responseLabel);
     addAndMakeVisible (responseSlider);
@@ -67,12 +51,12 @@ DelayAudioProcessorEditor::DelayAudioProcessorEditor (DelayAudioProcessor& p, Au
     frequencySlider.setSliderStyle(Slider::Rotary);
     frequencyAttachment = new SliderAttachment (valueTreeState, "frequency", frequencySlider);
     frequencySlider.setSkewFactor (0.5);
+    frequencySlider.setValue (2000);
 
 
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (400, 600);
-    startTimer (100);
 }
 
 DelayAudioProcessorEditor::~DelayAudioProcessorEditor()
@@ -94,7 +78,6 @@ void DelayAudioProcessorEditor::resized ()
     Rectangle<int> r = getLocalBounds ();
 
     {
-
         Rectangle<int> mixRect = r.removeFromTop (paramControlHeight);
         mixLabel.setBounds (mixRect.removeFromLeft (paramLabelWidth));
         mixSlider.setBounds (mixRect);
@@ -104,14 +87,8 @@ void DelayAudioProcessorEditor::resized ()
         feedbackSlider.setBounds (feedbackRect);
 
         Rectangle<int> timeRect = r.removeFromTop (paramControlHeight);
-        timeLabel.setBounds (timeRect);
-        syncTimeLabel.setBounds (timeRect.removeFromLeft (paramLabelWidth));
+        timeLabel.setBounds (timeRect.removeFromLeft (paramLabelWidth));
         timeSlider.setBounds (timeRect);
-        syncTimeSlider.setBounds (timeRect);
-
-        Rectangle<int> syncRect = r.removeFromTop (paramControlHeight);
-        syncLabel.setBounds (syncRect.removeFromLeft (paramLabelWidth));
-        syncButton.setBounds (syncRect);
 
         Rectangle<int> responseRect = r.removeFromTop (paramControlHeight);
         responseLabel.setBounds (responseRect.removeFromLeft (paramLabelWidth));
@@ -123,30 +100,5 @@ void DelayAudioProcessorEditor::resized ()
     }
 }
 
-void DelayAudioProcessorEditor::timerCallback ()
-{
-    static bool sync = true;
-    bool syncStatus = processor.delay.getSync ();
-
-    if (syncStatus != sync)
-    {
-        if (syncStatus)
-        {
-            timeLabel.setVisible (false);
-            timeSlider.setVisible (false);
-            syncTimeLabel.setVisible (true);
-            syncTimeSlider.setVisible (true);
-        }
-        else
-        {
-            timeLabel.setVisible (true);
-            timeSlider.setVisible (true);
-            syncTimeLabel.setVisible (false);
-            syncTimeSlider.setVisible (false);
-        }
-        
-        sync = syncStatus;
-    }
-}
 
 

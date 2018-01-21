@@ -15,16 +15,14 @@
               companyName="CraigHenry">
   <MAINGROUP id="yhf7BL" name="Coursework_Three_One">
     <GROUP id="{7D93C52C-D096-5A22-580B-7E2AB24BD30B}" name="Source">
-      <FILE id="TjG0wP" name="CustomSlider.cpp" compile="1" resource="0"
-            file="Source/CustomSlider.cpp"/>
-      <FILE id="N0sNDf" name="CustomSlider.h" compile="0" resource="0" file="Source/CustomSlider.h"/>
+      <FILE id="TjG0wP" name="TextParameterSlider.cpp" compile="1" resource="0"
+            file="Source/TextParameterSlider.cpp"/>
+      <FILE id="N0sNDf" name="TextParameterSlider.h" compile="0" resource="0"
+            file="Source/TextParameterSlider.h"/>
       <FILE id="f7eCDv" name="Delay.cpp" compile="1" resource="0" file="Source/Delay.cpp"/>
       <FILE id="CpxVR1" name="Delay.h" compile="0" resource="0" file="Source/Delay.h"/>
       <FILE id="oNPODf" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
       <FILE id="bkqy5i" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
-      <FILE id="ZJLqXY" name="MultitapDelay.cpp" compile="1" resource="0"
-            file="Source/MultitapDelay.cpp"/>
-      <FILE id="DTBAHx" name="MultitapDelay.h" compile="0" resource="0" file="Source/MultitapDelay.h"/>
       <FILE id="T0UZST" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="OV4a2F" name="PluginProcessor.h" compile="0" resource="0"

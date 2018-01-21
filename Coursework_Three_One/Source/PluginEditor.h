@@ -12,29 +12,47 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
-#include "CustomSlider.h"
+#include "TextParameterSlider.h"
 
-//==============================================================================
-/**
-*/
-class DelayAudioProcessorEditor  : public AudioProcessorEditor, public Timer
+class DelayAudioProcessorEditor  : public AudioProcessorEditor
+
+    //==============================================================================
+    /**
+    Component which acts as the GUI for an AudioProcessor.
+
+    Derived from juce::AudioProcessorEditor
+
+    see juce::AudioProcessorEditor, juce::AudioProcessorEditorEditor
+    */
 {
 public:
+    //==============================================================================
+    /** Creates an editor for the specified processor and value tree state*/
     DelayAudioProcessorEditor (DelayAudioProcessor&, AudioProcessorValueTreeState&);
+
+    /** Destructor. */
     ~DelayAudioProcessorEditor();
 
     //==============================================================================
-    void paint (Graphics&) override;
+    /** Called to paint the application window, overriden from Component. g - the 
+    graphics context used to paint the main component                             */
+    void paint (Graphics& g) override;
+
+    /** Called to paint the application window, overriden from Component. Used to
+    set the layout of the GUI.
+    see juce::Graphics             */
     void resized() override;
+    //==============================================================================
 
 private:
 
-    void timerCallback () override;
-
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
+    /** Reference to access the processor from the editor.                        */
     DelayAudioProcessor& processor;
 
+    /** Reference to access the processor value tree state from the editor.       */
+    AudioProcessorValueTreeState& valueTreeState;
+
+    /** Define parameter dimensions                                               */
     enum
     {
         paramControlHeight = 80,
@@ -42,11 +60,10 @@ private:
         paramSliderWidth = 80
     };
 
-    AudioProcessorValueTreeState& valueTreeState;
-
+    /** Attaches a slider to a parameter in the value tree                       */
     typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
-    typedef AudioProcessorValueTreeState::ButtonAttachment ButtonAttachment;
 
+    /** GUI elements and attachments to parameters                               */
     Label mixLabel;
     Slider mixSlider;
     ScopedPointer<SliderAttachment> mixAttachment;
@@ -58,14 +75,6 @@ private:
     Label timeLabel;
     TextParameterSlider timeSlider;
     ScopedPointer<SliderAttachment> timeAttachment;
-
-    Label syncTimeLabel;
-    TextParameterSlider syncTimeSlider;
-    ScopedPointer<SliderAttachment> syncTimeAttachment;
-
-    Label syncLabel;
-    ToggleButton syncButton;
-    ScopedPointer<ButtonAttachment> syncAttachment;
 
     Label responseLabel;
     TextParameterSlider responseSlider;

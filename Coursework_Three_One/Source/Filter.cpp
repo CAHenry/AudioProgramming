@@ -25,11 +25,11 @@ Filter::~Filter ()
 
 }
 
-
-void Filter::initialise (int processorSampleRate, int blockSize)
+ 
+void Filter::initialise (int processorSampleRate, int blockSize, float delayRampTimeInSeconds)
 {
     sampleRate = processorSampleRate;
-    frequency.reset (sampleRate/blockSize, 0.1);
+    frequency.reset (sampleRate/blockSize, delayRampTimeInSeconds);
     setNewCoefficients();
 }
 
@@ -69,21 +69,25 @@ void Filter::update ()
 String Filter::responseToText (float response)
 {
     if (response == 0)
-        return String("LPF");
+        return String ("LPF");
     else if (response == 1)
         return String ("HPF");
     else if (response == 2)
         return String ("BPF");
+    else
+        return String ("ERR");
 }
 
 float Filter::textToResponse (String response)
 {
-    if (response.compare("LPF"))
+    if (response.compare ("LPF"))
         return 0.0f;
     else if (response.compare ("HPF"))
         return 1.0f;
     else if (response.compare ("BPF"))
         return 2.0f;
+    else
+        return 0.0f;
 }
 
 void Filter::setNewCoefficients ()

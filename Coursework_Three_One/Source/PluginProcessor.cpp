@@ -8,6 +8,7 @@
   ==============================================================================
 */
 
+#pragma once
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
@@ -37,10 +38,6 @@ DelayAudioProcessor::DelayAudioProcessor ()
     parameters.addParameterListener ("feedback", this);
     parameters.createAndAddParameter ("time", "Time", String (), NormalisableRange<float> (0.01f, 1.0f), 0.4f, nullptr, nullptr);
     parameters.addParameterListener ("time", this);
-    parameters.createAndAddParameter ("syncTime", "Sync Time", String (), NormalisableRange<float> (0.0f, 6.0f), 0.0f, nullptr, nullptr);
-    parameters.addParameterListener ("syncTime", this);
-    parameters.createAndAddParameter ("sync", "Sync", String (), NormalisableRange<float> (0.0f, 1.0f), 0.0f, nullptr, nullptr);
-    parameters.addParameterListener ("sync", this);
     parameters.createAndAddParameter ("response", "Filter Respose", String (), NormalisableRange<float> (0.0f, 2.0f), 0.0f, nullptr , nullptr);
     parameters.addParameterListener ("response", this);
     parameters.createAndAddParameter ("frequency", "Frequency", String (), NormalisableRange<float> (20.0, 20000.0), 2000.0, nullptr, nullptr);
@@ -96,7 +93,7 @@ int DelayAudioProcessor::getNumPrograms()
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int DelayAudioProcessor::getCurrentProgram()
+int DelayAudioProcessor::getCurrentProgram ()
 {
     return 0;
 }
@@ -107,10 +104,10 @@ void DelayAudioProcessor::setCurrentProgram (int index)
 
 const String DelayAudioProcessor::getProgramName (int index)
 {
-    return {};
+    return String ();
 }
 
-void DelayAudioProcessor::changeProgramName (int index, const String& newName)
+void DelayAudioProcessor::changeProgramName (int index, const String & newName)
 {
 }
 
@@ -121,25 +118,25 @@ void DelayAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     // initialisation that you need..
     
 
+    auto channels = static_cast<uint32> (jmin (getMainBusNumInputChannels (), getMainBusNumOutputChannels ()));
     mix.reset (sampleRate, 0.1);
     feedback.reset (sampleRate, 0.1);
-    delay.initialise(delayLine, getNumInputChannels(), sampleRate, 0.1);
-    filterL.initialise (sampleRate, getBlockSize ());
-    filterR.initialise (sampleRate, getBlockSize ());
-    auto channels = static_cast<uint32> (jmin (getMainBusNumInputChannels (), getMainBusNumOutputChannels ()));
+    delay.initialise(delayLine, channels, static_cast<int>(sampleRate), 0.1f);
+    filterL.initialise (static_cast<int>(sampleRate), getBlockSize ());
+    filterR.initialise (static_cast<int>(sampleRate), getBlockSize ());
 
 }
 
 void DelayAudioProcessor::releaseResources()
 {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
+    delayLine.setSize (0, 0);
 }
 
 void DelayAudioProcessor::reset ()
 {
-    filterL.reset();
+    filterL.reset ();
     filterR.reset ();
+    delayLine.clear ();
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -173,12 +170,6 @@ void DelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
     const int totalNumOutputChannels = getTotalNumOutputChannels();
     auto numSamples = buffer.getNumSamples ();
 
-    bool sync = *parameters.getRawParameterValue ("sync");
-    delay.setSync (sync);
-
-    playHead = this->getPlayHead ();
-    playHead->getCurrentPosition (currentPositionInfo);
-    delay.setBPM (delayLine, currentPositionInfo.bpm);
 
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
@@ -256,18 +247,14 @@ void DelayAudioProcessor::parameterChanged (const String & parameterID, float ne
     {
         feedback.setValue (newValue);
     }
-    else if (parameterID == "syncTime")
-    {
-        delay.setDelayTime (powf (2.0, newValue) / 16.0);
-    }
     else if (parameterID == "time")
     {
         delay.setDelayTime (newValue);
     }
     else if (parameterID == "response")
     {
-        filterL.setResponse ((int) newValue);
-        filterR.setResponse ((int) newValue);
+        filterL.setResponse (static_cast<int> (newValue));
+        filterR.setResponse (static_cast<int> (newValue));
     }
     else if (parameterID == "frequency")
     {

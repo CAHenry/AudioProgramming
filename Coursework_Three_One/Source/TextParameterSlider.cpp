@@ -22,10 +22,10 @@ void TextParameterSlider::setGetValueFromTextFunction (std::function<double (Str
 
 String TextParameterSlider::getTextFromValue (double value)
 {
-    if (getTextFromValueFunction != nullptr)
+    if (getTextFromValueFunction != nullptr) 
         return getTextFromValueFunction (value);
     else
-        return Slider::getTextFromValue (value);
+        return Slider::getTextFromValue (value); // if a replacement function has not been set revert to default function
 }
 
 double TextParameterSlider::getValueFromText (const String &text)
@@ -33,5 +33,5 @@ double TextParameterSlider::getValueFromText (const String &text)
     if (getValueFromTextFunction != nullptr)
         return getValueFromTextFunction (text);
     else
-        return Slider::getValueFromText (text);
+        return Slider::getValueFromText (text); // if a replacement function has not been set revert to default function
 }

@@ -18,6 +18,7 @@ DelayAudioProcessorEditor::DelayAudioProcessorEditor (DelayAudioProcessor& p, Au
     processor (p),
     valueTreeState (vts)
 {
+      // Initialising GUI components
     mixLabel.setText ("Mix", dontSendNotification);
     addAndMakeVisible (mixLabel);
     addAndMakeVisible (mixSlider);
@@ -39,18 +40,18 @@ DelayAudioProcessorEditor::DelayAudioProcessorEditor (DelayAudioProcessor& p, Au
     responseLabel.setText ("Filter Response", dontSendNotification);
     addAndMakeVisible (responseLabel);
     addAndMakeVisible (responseSlider);
-    responseSlider.setGetTextFromValueFunction (Filter::responseToText);
+    responseSlider.setGetTextFromValueFunction (Filter::responseToText); //replace text and value functions
     responseSlider.setGetValueFromTextFunction (Filter::textToResponse);
     responseSlider.setSliderStyle (Slider::Rotary);
     responseAttachment = new SliderAttachment (valueTreeState, "response", responseSlider);
-    responseSlider.setRange (0, 2, 1);
+    responseSlider.setRange (0, 2, 1); // Makes the slider discrete
 
     frequencyLabel.setText ("Frequency", dontSendNotification);
     addAndMakeVisible (frequencyLabel);
     addAndMakeVisible (frequencySlider);
     frequencySlider.setSliderStyle(Slider::Rotary);
     frequencyAttachment = new SliderAttachment (valueTreeState, "frequency", frequencySlider);
-    frequencySlider.setSkewFactor (0.5);
+    frequencySlider.setSkewFactor (0.5); // skews the frequency cut off slider so that the low frequencies have more space
     frequencySlider.setValue (2000);
 
 
@@ -66,15 +67,12 @@ DelayAudioProcessorEditor::~DelayAudioProcessorEditor()
 //==============================================================================
 void DelayAudioProcessorEditor::paint (Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
 }
 
 void DelayAudioProcessorEditor::resized ()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
-
+    //GUI layout settings
     Rectangle<int> r = getLocalBounds ();
 
     {

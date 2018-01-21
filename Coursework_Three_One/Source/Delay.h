@@ -44,7 +44,7 @@ public:
     /** Write the float val to the input of the delay line */
     void writeSample (float* &delayBuffer, float val);
 
-    /** Increment the read and write position of the delay line */
+    /** Increment the read and write position of the delay line. Call once per frame */
     void incrementIndex ();
 
 private:

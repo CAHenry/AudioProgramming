@@ -25,11 +25,11 @@ Filter::~Filter ()
 
 }
 
- 
+ //Called once per block to prevent coefficients being calculated every sample
 void Filter::initialise (int processorSampleRate, int blockSize, float delayRampTimeInSeconds)
 {
     sampleRate = processorSampleRate;
-    frequency.reset (sampleRate/blockSize, delayRampTimeInSeconds);
+    frequency.reset (sampleRate/blockSize, delayRampTimeInSeconds); // Rate of smoothing, set to be called every block.
     setNewCoefficients();
 }
 
@@ -75,7 +75,7 @@ String Filter::responseToText (float response)
     else if (response == 2)
         return String ("BPF");
     else
-        return String ("ERR");
+        return String ("ERR"); // Should never happen provided slider range is set correctly
 }
 
 float Filter::textToResponse (String response)
@@ -87,12 +87,11 @@ float Filter::textToResponse (String response)
     else if (response.compare ("BPF"))
         return 2.0f;
     else
-        return 0.0f;
+        return 0.0f; // Should never happen provided slider range is set correctly
 }
 
 void Filter::setNewCoefficients ()
 {
-
     switch (response)
     {
     case lowPass:
@@ -101,8 +100,7 @@ void Filter::setNewCoefficients ()
     case highPass:
         coefficients = dsp::IIR::Coefficients<float>::makeFirstOrderHighPass (sampleRate, frequency.getNextValue ());
         break;
-    case bandPass:
-        // 0.707 to ensure a -3dB point.
+      case bandPass:
         coefficients = dsp::IIR::Coefficients<float>::makeBandPass (sampleRate, frequency.getNextValue ());
         break;
     }

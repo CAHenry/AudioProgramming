@@ -56,14 +56,17 @@ private:
     enum
     {
         paramControlHeight = 80,
+        paramControlWidth = 80,
         paramLabelWidth = 80,
-        paramSliderWidth = 80
+        paramLabelHeight = 30
     };
 
     /** Attaches a slider to a parameter in the value tree                       */
     typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 
     /** GUI elements and attachments to parameters                               */
+    Label titleLabel;
+
     Label mixLabel;
     Slider mixSlider;
     ScopedPointer<SliderAttachment> mixAttachment;

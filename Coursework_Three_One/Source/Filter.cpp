@@ -60,7 +60,7 @@ void Filter::setParameters (filterResponse newResponse, float newFrequency)
 
 void Filter::update ()
 {
-    if (frequency.isSmoothing ())
+    if (frequency.isSmoothing ()) // only update if the frequency response is changing
     {
         setNewCoefficients();
     }
@@ -69,22 +69,22 @@ void Filter::update ()
 String Filter::responseToText (float response)
 {
     if (response == 0)
-        return String ("LPF");
+        return String ("Low Pass");
     else if (response == 1)
-        return String ("HPF");
+        return String ("High Pass");
     else if (response == 2)
-        return String ("BPF");
+        return String ("Band Pass");
     else
-        return String ("ERR"); // Should never happen provided slider range is set correctly
+        return String ("error"); // Should never happen provided slider range is set correctly
 }
 
 float Filter::textToResponse (String response)
 {
-    if (response.compare ("LPF"))
+    if (response.compare ("Low Pass"))
         return 0.0f;
-    else if (response.compare ("HPF"))
+    else if (response.compare ("High Pass"))
         return 1.0f;
-    else if (response.compare ("BPF"))
+    else if (response.compare ("Band Pass"))
         return 2.0f;
     else
         return 0.0f; // Should never happen provided slider range is set correctly

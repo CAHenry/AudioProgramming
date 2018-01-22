@@ -27,16 +27,16 @@ DelayAudioProcessor::DelayAudioProcessor ()
             #endif
             parameters (*this, nullptr),
             mix (0.5f),
-            feedback (0.8f),
-            delay (0.4f, 2.0f),
+            feedback (0.5f),
+            delay (0.5f, 1.0f),
             filterL (Filter::lowPass, 2000),
             filterR (Filter::lowPass, 2000)
 {
-    parameters.createAndAddParameter ("mix", "Mix", String (), NormalisableRange<float> (0.0f, 1.0f), 0.5f, nullptr, nullptr);
+    parameters.createAndAddParameter ("mix", "Mix", String (), NormalisableRange<float> (0.0f, 100.0f), 50.0f, nullptr, nullptr);
     parameters.addParameterListener ("mix", this);
-    parameters.createAndAddParameter ("feedback", "Feedback", String (), NormalisableRange<float> (0.0f, 1.0f), 0.8f, nullptr, nullptr);
+    parameters.createAndAddParameter ("feedback", "Feedback", String (), NormalisableRange<float> (0.0f, 100.0f), 50.0f, nullptr, nullptr);
     parameters.addParameterListener ("feedback", this);
-    parameters.createAndAddParameter ("time", "Time", String (), NormalisableRange<float> (0.01f, 1.0f), 0.4f, nullptr, nullptr);
+    parameters.createAndAddParameter ("time", "Time", String (), NormalisableRange<float> (0.01f, 1.0f), 0.5f, nullptr, nullptr);
     parameters.addParameterListener ("time", this);
     parameters.createAndAddParameter ("response", "Filter Respose", String (), NormalisableRange<float> (0.0f, 2.0f), 0.0f, nullptr , nullptr);
     parameters.addParameterListener ("response", this);
@@ -122,8 +122,8 @@ void DelayAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     mix.reset (sampleRate, 0.1);
     feedback.reset (sampleRate, 0.1);
     delay.initialise(delayLine, channels, static_cast<int>(sampleRate), 0.1f);
-    filterL.initialise (static_cast<int>(sampleRate), getBlockSize ());
-    filterR.initialise (static_cast<int>(sampleRate), getBlockSize ());
+    filterL.initialise (static_cast<int>(sampleRate), getBlockSize (), 0.1f);
+    filterR.initialise (static_cast<int>(sampleRate), getBlockSize (), 0.1f);
 
 }
 
@@ -170,35 +170,30 @@ void DelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
     const int totalNumOutputChannels = getTotalNumOutputChannels();
     auto numSamples = buffer.getNumSamples ();
 
-
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
-
+    // clears any extraneous output channels
     for (int i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
     {
-        buffer.clear (i, 0, numSamples);
-        filterStereo[i]->update();
+        buffer.clear (i, 0, numSamples); 
     }
+
+    // updates the filter coefficients
+    for (int i = totalNumOutputChannels; i < totalNumOutputChannels; i++)
+    {
+        filterStereo[i]->update ();
+    }
+
+    // get channel/delay write pointers
     float* channelBuffer[2] = {buffer.getWritePointer (0), buffer.getWritePointer (1)};
     float* delayBuffer[2] = {delayLine.getWritePointer (0), delayLine.getWritePointer (1)};
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-
-
-    // sample iterator then channel iterator due to smoothedValues
-
     for (int i = 0; i < numSamples; i++)
     {
+        //update mix and feedback parameters
         float mixVal = mix.getNextValue ();
         float feedbackVal = feedback.getNextValue ();
-
         float dryMix = 1 - mixVal;
         float wetMix = mixVal;
+
         for (int channel = 0; channel < totalNumOutputChannels; channel++)
         {
             float in = channelBuffer[channel][i];
@@ -241,11 +236,12 @@ void DelayAudioProcessor::parameterChanged (const String & parameterID, float ne
 {
     if (parameterID == "mix")
     {
-        mix.setValue (newValue);
+        mix.setValue (newValue / 100.0f);
     }
     else if (parameterID == "feedback")
     {
-        feedback.setValue (newValue);
+        float test = newValue / 100.0f;
+        feedback.setValue (newValue / 100.0f);
     }
     else if (parameterID == "time")
     {

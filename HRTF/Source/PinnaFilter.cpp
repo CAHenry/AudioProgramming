@@ -33,7 +33,7 @@ void PinnaFilter::processSample (float* input)
     input[0] = 0;
     for (int i = 0; i < filterOrder; i++)
     {
-        input[0] += delayLine[(index + i + 1) % filterOrder] * coefficients[filterOrder - i];
+        input[0] += delayLine[(index + i + 1) % filterOrder] * myCoefficients[filterOrder - i];
     }
 
     index = (index + 1) % filterOrder;
@@ -44,7 +44,7 @@ void PinnaFilter::calculateCoefficients(float elevation)
 {
     for (int i = 0; i < filterOrder; i++)
     {
-        coefficients[i] = 0;
+        myCoefficients[i] = 0;
     }
 
     for (int n = 0; n < 6; n++)
@@ -55,8 +55,8 @@ void PinnaFilter::calculateCoefficients(float elevation)
         int high = low + 1;
         float fPart = timeDelay - low;
 
-        coefficients[low] += reflection * (1.0f - fPart);
-        coefficients[high] += reflection * fPart;
+        myCoefficients[low] += reflection * (1.0f - fPart);
+        myCoefficients[high] += reflection * fPart;
     }
 }
 

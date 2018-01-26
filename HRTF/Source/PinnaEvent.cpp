@@ -12,7 +12,7 @@
 
 float PinnaEvent::coefficientTable[6][4]=
 {
-    {    1, 1, 0,    1},
+    {    0, 1, 0,    1},
     {  0.5, 1, 2,    1},
     {   -1, 5, 4,  0.5},
     {  0.5, 5, 4,  0.5},
@@ -35,9 +35,19 @@ PinnaEvent::~PinnaEvent ()
 {
 }
 
+inline double toDegrees (double radians)
+{
+    return radians * (180.0 / M_PI);
+}
+
+inline double toRadians (double degrees)
+{
+    return degrees * (M_PI / 180);
+}
+
 float PinnaEvent::getTimeDelay (float elevation)
 {
-    return pinnaCoeffs[0] * sin (pinnaCoeffs[2] * (90.0 - elevation)) + pinnaCoeffs[1];
+    return pinnaCoeffs[0] * sin (toRadians (pinnaCoeffs[2] * (90.0 - elevation))) + pinnaCoeffs[1];
 }
 
 float PinnaEvent::getReflectionCoefficient ()

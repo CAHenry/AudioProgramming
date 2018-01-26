@@ -34,5 +34,5 @@ private:
     static const int filterOrder = 31;
     int index = 0;
     float delayLine[filterOrder + 1] = {0};
-    float coefficients[filterOrder + 1] = {0};
+    float myCoefficients[filterOrder + 1] = {0};
 };

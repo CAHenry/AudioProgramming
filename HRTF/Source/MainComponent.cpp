@@ -21,7 +21,9 @@ public:
     MainContentComponent()
         :
         elevation(45.0),
-        gaussian (0.0f, 1.0f)
+        gaussian (0.0f, 1.0f),
+        impulseL ("D:\documents\FinalYear\AudioProgramming\HRTF\3Rooms27SmallRoomL.wav"),
+        impulseR ("D:\documents\FinalYear\AudioProgramming\HRTF\3Rooms27SmallRoomR.wav")
     {
         setSize (800, 600);
 
@@ -30,7 +32,8 @@ public:
 
         addAndMakeVisible (&elevationSlider);
         elevationSlider.setSliderStyle (Slider::LinearBarVertical);
-        elevationSlider.setRange (0.0f, 90.0f);
+        elevationSlider.setRange (-90.0f, 90.0f);
+        elevationSlider.addListener (this);
         startTimer (500);
     }
 
@@ -45,8 +48,11 @@ public:
         DBG (String (sampleRate));
 
         elevation.reset (sampleRate, 0.1);
-
-
+        dsp::ProcessSpec spec = {sampleRate, samplesPerBlockExpected, 2};
+        convolutionL.prepare (spec);
+        convolutionL.loadImpulseResponse (impulseL,false, false, impulseL.getSize());
+        convolutionR.prepare (spec);
+        convolutionR.loadImpulseResponse (impulseR, false, false, impulseR.getSize ());
     }
 
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override
@@ -67,7 +73,7 @@ public:
             for (int sample = 0; sample < bufferToFill.numSamples; ++sample)
             {
                 filters[channel]->calculateCoefficients (elevation.getNextValue());
-                buffer[sample] = gaussian(generator) * play;
+                buffer[sample] = gaussian (generator) * play;
                 filters[channel]->processSample (&buffer[sample]);
             }
         }
@@ -128,16 +134,18 @@ private:
     //==============================================================================
     Slider elevationSlider;
     LinearSmoothedValue<float> elevation;
-    bool play = false;
+    bool play = true;
     int count = 0;
     Random random;
     PinnaFilter filterL, filterR;
     PinnaFilter* filters[2] = {&filterL, &filterR};
-    dsp::FIR::Filter<float> filter;
+    dsp::Convolution convolutionL, convolutionR;
+    File impulseL, impulseR;
     // Your private member variables go here...
 
     std::default_random_engine generator;
     std::normal_distribution<float> gaussian;
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };

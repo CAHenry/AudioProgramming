@@ -29,7 +29,7 @@ Filter::~Filter ()
 void Filter::initialise (int processorSampleRate, int blockSize, float delayRampTimeInSeconds)
 {
     sampleRate = processorSampleRate;
-    frequency.reset (sampleRate/blockSize, delayRampTimeInSeconds); // Rate of smoothing, set to be called every block.
+    frequency.reset (sampleRate/ static_cast<float> (blockSize), delayRampTimeInSeconds); // Rate of smoothing, set to be called every block.
     setNewCoefficients();
 }
 

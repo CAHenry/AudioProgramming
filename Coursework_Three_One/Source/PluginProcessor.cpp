@@ -8,7 +8,6 @@
   ==============================================================================
 */
 
-#pragma once
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
@@ -25,12 +24,13 @@ DelayAudioProcessor::DelayAudioProcessor ()
                         #endif
                             ),
             #endif
-            parameters (*this, nullptr),
+    //set defaults for linearsmoothedvalues, delay and filters
             mix (0.5f),
             feedback (0.5f),
             delay (0.5f, 1.0f),
             filterL (Filter::lowPass, 2000),
-            filterR (Filter::lowPass, 2000)
+            filterR (Filter::lowPass, 2000),
+            parameters (*this, nullptr)
 {
     parameters.createAndAddParameter ("mix", "Mix", String (), NormalisableRange<float> (0.0f, 100.0f), 50.0f, nullptr, nullptr);
     parameters.addParameterListener ("mix", this);
@@ -114,9 +114,6 @@ void DelayAudioProcessor::changeProgramName (int index, const String & newName)
 //==============================================================================
 void DelayAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
-    
 
     auto channels = static_cast<uint32> (jmin (getMainBusNumInputChannels (), getMainBusNumOutputChannels ()));
     mix.reset (sampleRate, 0.1);
@@ -176,8 +173,8 @@ void DelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
         buffer.clear (i, 0, numSamples); 
     }
 
-    // updates the filter coefficients
-    for (int i = totalNumOutputChannels; i < totalNumOutputChannels; i++)
+    // updates the filter coefficients (only once per block for efficiency)
+    for (int i = 0; i < totalNumOutputChannels; i++)
     {
         filterStereo[i]->update ();
     }
@@ -194,15 +191,16 @@ void DelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
         float dryMix = 1 - mixVal;
         float wetMix = mixVal;
 
+        //actual delay processing
         for (int channel = 0; channel < totalNumOutputChannels; channel++)
         {
-            float in = channelBuffer[channel][i];
-            float filteredDelayOutput = filterStereo[channel]->processSample (delay.readSample (delayBuffer[channel]));
-            float delayInput = in + (filteredDelayOutput * feedbackVal);
-            delay.writeSample (delayBuffer[channel], delayInput);
-            channelBuffer[channel][i] = in* dryMix + filteredDelayOutput * wetMix;
+            float in = channelBuffer[channel][i]; // input
+            float filteredDelayOutput = filterStereo[channel]->processSample (delay.readSample (delayBuffer[channel])); // delayOutput
+            float delayInput = in + (filteredDelayOutput * feedbackVal); // delayInput  filteredDelay * feedback + input
+            delay.writeSample (delayBuffer[channel], delayInput); // write delay input to delayLine
+            channelBuffer[channel][i] = in* dryMix + filteredDelayOutput * wetMix; // output
         }
-        delay.incrementIndex ();
+        delay.incrementIndex (); // moves to the next frame (and updates delayTime value internally)
     }
 }
 

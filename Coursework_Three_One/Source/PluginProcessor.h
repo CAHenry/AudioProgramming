@@ -113,9 +113,8 @@ public:
     Filter filterR;
     Filter* filterStereo[2] = {&filterL, &filterR};
 private:
-
     /** AudioProcessorValueTreeState callback. Called when parameters are changed */
-    void parameterChanged (const String &parameterID, float newValue);
+    void parameterChanged (const String &parameterID, float newValue) override;
 
     // Value tree to hold audio processor parameters
     AudioProcessorValueTreeState parameters;

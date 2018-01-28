@@ -147,10 +147,13 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\NoiseGenerator.cpp"/>
+    <ClCompile Include="..\..\Source\HeadModel.cpp"/>
     <ClCompile Include="..\..\Source\PinnaEvent.cpp"/>
     <ClCompile Include="..\..\Source\PinnaFilter.cpp"/>
     <ClCompile Include="..\..\Source\MainComponent.cpp"/>
     <ClCompile Include="..\..\Source\Main.cpp"/>
+    <ClCompile Include="..\..\Source\Convolution.cpp"/>
     <ClCompile Include="C:\Program Files\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1827,8 +1830,12 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\MainComponent.h"/>
+    <ClInclude Include="..\..\Source\NoiseGenerator.h"/>
+    <ClInclude Include="..\..\Source\HeadModel.h"/>
     <ClInclude Include="..\..\Source\PinnaEvent.h"/>
     <ClInclude Include="..\..\Source\PinnaFilter.h"/>
+    <ClInclude Include="..\..\Source\Convolution.h"/>
     <ClInclude Include="C:\Program Files\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>
     <ClInclude Include="C:\Program Files\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>
     <ClInclude Include="C:\Program Files\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>

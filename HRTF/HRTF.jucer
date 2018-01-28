@@ -6,6 +6,13 @@
               cppLanguageStandard="11" companyCopyright="" jucerVersion="5.2.0">
   <MAINGROUP id="EKS4aW" name="HRTF">
     <GROUP id="{29705475-6DB3-0288-155C-BABB37961D9B}" name="Source">
+      <FILE id="RAyZVs" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="PGtnOh" name="NoiseGenerator.cpp" compile="1" resource="0"
+            file="Source/NoiseGenerator.cpp"/>
+      <FILE id="XWVHT8" name="NoiseGenerator.h" compile="0" resource="0"
+            file="Source/NoiseGenerator.h"/>
+      <FILE id="GfVdLi" name="HeadModel.cpp" compile="1" resource="0" file="Source/HeadModel.cpp"/>
+      <FILE id="CVyuFb" name="HeadModel.h" compile="0" resource="0" file="Source/HeadModel.h"/>
       <FILE id="nILSCr" name="PinnaEvent.cpp" compile="1" resource="0" file="Source/PinnaEvent.cpp"/>
       <FILE id="lJaLdz" name="PinnaEvent.h" compile="0" resource="0" file="Source/PinnaEvent.h"/>
       <FILE id="tsKxRS" name="PinnaFilter.cpp" compile="1" resource="0" file="Source/PinnaFilter.cpp"/>
@@ -13,6 +20,8 @@
       <FILE id="IhjMmP" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="byb0BO" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="WtWhTi" name="Convolution.h" compile="0" resource="0" file="Source/Convolution.h"/>
+      <FILE id="KkjZ4J" name="Convolution.cpp" compile="1" resource="0" file="Source/Convolution.cpp"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

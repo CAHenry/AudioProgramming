@@ -8,6 +8,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PinnaFilter.h"
+#include "NoiseGenerator.h"
+#include "Convolution.h"
 #include <random>
 //==============================================================================
 /*
@@ -20,10 +22,7 @@ public:
     //==============================================================================
     MainContentComponent()
         :
-        elevation(45.0),
-        gaussian (0.0f, 1.0f),
-        impulseL ("D:\documents\FinalYear\AudioProgramming\HRTF\3Rooms27SmallRoomL.wav"),
-        impulseR ("D:\documents\FinalYear\AudioProgramming\HRTF\3Rooms27SmallRoomR.wav")
+        elevation(0.0)
     {
         setSize (800, 600);
 
@@ -34,7 +33,8 @@ public:
         elevationSlider.setSliderStyle (Slider::LinearBarVertical);
         elevationSlider.setRange (-90.0f, 90.0f);
         elevationSlider.addListener (this);
-        startTimer (500);
+
+        startTimer (200);
     }
 
     ~MainContentComponent()
@@ -48,11 +48,10 @@ public:
         DBG (String (sampleRate));
 
         elevation.reset (sampleRate, 0.1);
-        dsp::ProcessSpec spec = {sampleRate, samplesPerBlockExpected, 2};
-        convolutionL.prepare (spec);
-        convolutionL.loadImpulseResponse (impulseL,false, false, impulseL.getSize());
-        convolutionR.prepare (spec);
-        convolutionR.loadImpulseResponse (impulseR, false, false, impulseR.getSize ());
+        convL.prepare (impulseL, convLineL);
+        convR.prepare (impulseR, convLineR);
+        convLineL.clear ();
+        convLineR.clear ();
     }
 
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override
@@ -61,8 +60,6 @@ public:
 
         // For more details, see the help for AudioProcessor::getNextAudioBlock()
 
-        // Right now we are not producing any data, in which case we need to clear the buffer
-        // (to prevent the output of random noise)
 
         for (int channel = 0; channel < bufferToFill.buffer->getNumChannels (); ++channel)
         {
@@ -72,8 +69,23 @@ public:
             // Fill the required number of samples with noise betweem -0.125 and +0.125
             for (int sample = 0; sample < bufferToFill.numSamples; ++sample)
             {
+                buffer[sample] = noiseGen.generateNoise ();
+            }
+        }
+
+
+        for (int channel = 0; channel < bufferToFill.buffer->getNumChannels (); ++channel)
+        {
+            // Get a pointer to the start sample in the buffer for this audio output channel
+            float* const buffer = bufferToFill.buffer->getWritePointer (channel, bufferToFill.startSample);
+            float* conv = convLines[channel]->getWritePointer (0, 0);
+            float* imp = impulses[channel]->getWritePointer (channel, 0);
+            // Fill the required number of samples with noise betweem -0.125 and +0.125
+            for (int sample = 0; sample < bufferToFill.numSamples; ++sample)
+            {
+                //convs[channel]->convolve (&buffer[sample], conv, imp);
+
                 filters[channel]->calculateCoefficients (elevation.getNextValue());
-                buffer[sample] = gaussian (generator) * play;
                 filters[channel]->processSample (&buffer[sample]);
             }
         }
@@ -111,41 +123,24 @@ public:
     
     void timerCallback () override
     {
-        if (count++ % 3)
-        {
-            play = false;
-        }
-        else
-        {
-            play = true;
-        }
+        noiseGen.bursts ();
     }
-
-    //virtual bool keyPressed (const KeyPress& key, Component* originatingComponent) override
-    //{
-    //}
-
-    //virtual bool keyStateChanged (bool isKeyDown, Component* originatingComponent)
-    //{
-    //    play = isKeyDown;
-    //}
-
 private:
     //==============================================================================
+    NoiseGenerator noiseGen;
+
     Slider elevationSlider;
     LinearSmoothedValue<float> elevation;
-    bool play = true;
-    int count = 0;
-    Random random;
+
     PinnaFilter filterL, filterR;
     PinnaFilter* filters[2] = {&filterL, &filterR};
-    dsp::Convolution convolutionL, convolutionR;
-    File impulseL, impulseR;
-    // Your private member variables go here...
+    int count = 0;
 
-    std::default_random_engine generator;
-    std::normal_distribution<float> gaussian;
-
+    AudioBuffer<float> impulseL, convLineL, impulseR, convLineR;
+    AudioBuffer<float>* impulses[2] = {&impulseL, &impulseR};
+    AudioBuffer<float>* convLines[2] = {&convLineL, &convLineR};
+    Convolution convL, convR;
+    Convolution* convs[2] = {&convL, &convR};
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };

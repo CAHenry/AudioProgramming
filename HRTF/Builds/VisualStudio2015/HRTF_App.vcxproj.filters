@@ -394,6 +394,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\NoiseGenerator.cpp">
+      <Filter>HRTF\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\HeadModel.cpp">
+      <Filter>HRTF\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\PinnaEvent.cpp">
       <Filter>HRTF\Source</Filter>
     </ClCompile>
@@ -404,6 +410,9 @@
       <Filter>HRTF\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Main.cpp">
+      <Filter>HRTF\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Convolution.cpp">
       <Filter>HRTF\Source</Filter>
     </ClCompile>
     <ClCompile Include="C:\Program Files\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -2232,10 +2241,22 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\MainComponent.h">
+      <Filter>HRTF\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\NoiseGenerator.h">
+      <Filter>HRTF\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\HeadModel.h">
+      <Filter>HRTF\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PinnaEvent.h">
       <Filter>HRTF\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PinnaFilter.h">
+      <Filter>HRTF\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Convolution.h">
       <Filter>HRTF\Source</Filter>
     </ClInclude>
     <ClInclude Include="C:\Program Files\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
